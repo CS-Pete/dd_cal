@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doomsday Algorithm - Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">HOME</a></li>
+                <li><a href="{{ url_for('lapse') }}" id="lapse-link"></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Doomsday Algorithm</h1>
+        <div id="date-inputs">
+            <label for="date-picker">Select Date:</label>
+            <input type="date" id="date-picker">
+        </div>
+        <button id="compute-btn" disabled>Compute</button>
+        <div id="result" class="hidden"></div>
+    </main>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
