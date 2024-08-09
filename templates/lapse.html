@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doomsday Algorithm - YTD</title>
+    <title>{{ current_year }} YTD</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -12,14 +12,62 @@
         <nav>
             <ul>
                 <li><a href="{{ url_for('index') }}">HOME</a></li>
-                <li><a href="{{ url_for('lapse') }}" id="lapse-link"></a></li>
+                <li><a href="{{ url_for('lapse') }}">{{ current_year }} YTD</a></li>
             </ul>
         </nav>
     </header>
     <main>
-        <h1 id="lapse-heading"></h1>
-        <canvas id="ytd-chart"></canvas>
+        <h1>{{ current_year }} YTD</h1>
+        <canvas id="donutChart"></canvas>
+        <p id="percentage"></p>
     </main>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const today = new Date();
+            const startOfYear = new Date(today.getFullYear(), 0, 1);
+            const endOfYear = new Date(today.getFullYear(), 11, 31);
+
+            const daysPassed = Math.floor((today - startOfYear) / (1000 * 60 * 60 * 24));
+            const totalDays = Math.floor((endOfYear - startOfYear) / (1000 * 60 * 60 * 24)) + 1;
+            const daysRemaining = totalDays - daysPassed;
+            const percentage = (daysPassed / totalDays * 100).toFixed(1);
+
+            const ctx = document.getElementById('donutChart').getContext('2d');
+            const donutChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Days Passed', 'Days Remaining'],
+                    datasets: [{
+                        data: [daysPassed, daysRemaining],
+                        backgroundColor: ['#007bff', '#dc3545'],
+                    }]
+                },
+                options: {
+                    cutoutPercentage: 70,
+                    rotation: Math.PI,
+                    circumference: Math.PI,
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    label += context.raw;
+                                    label += ' days';
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            document.getElementById('percentage').textContent = percentage + '%';
+        });
+    </script>
 </body>
 </html>
