@@ -4,17 +4,119 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day of the Week Calculator</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
+   <!-- Header -->
     <header>
         <nav>
-            <ul>
-                <li><a href="{{ url_for('index') }}">HOME</a></li>
-                <li><a href="{{ url_for('lapse') }}">{{ current_year }} YTD</a></li>
-            </ul>
+            <a href="{{ url_for('index') }}">HOME</a>
+            <a href="">BLOG</a>
         </nav>
     </header>
+    <!-- Carousel -->
+    <div class="carousel">
+        <!-- Carousel items -->
+        <div class="list">
+            <div class="item">
+                <img src="{{ url_for('static', filename='images/img1.jpg') }}" alt="Advanced computing dashboard">
+                <div class="content">
+                    <div class="author">PILIP</div>
+                    <div class="title">PERPETUAL CALENDAR</div>
+                    <div class="topic">Doomsday Algorithm</div>
+                    <div class="des">Sounds ominous but the Doomsday algorithm is basically a time-travel cheat code for calendars. Created by John Conway, the algorithm provides a perpetual calendar by leveraging the 400-year cycle of the Gregorian calendar. It identifies a "Doomsday" — a day of the week that recurs on specific dates each month, making it easy to determine the weekday for any given date. For example, the last day of February and July 4th always fall on the same weekday — ALWAYS. The algorithm is so straightforward you can do it in your head. Curious to test it out? Try the Doomsday algorithm below!</div>
+                    <form id="date-form" method="POST">
+                        <!-- <label for="month">Month:</label> -->
+                        <select id="month" name="month" required>
+                            <option value="">Select Month</option>
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+            
+                         <!-- <label for="day">Day:</label> -->
+                        <select id="day" name="day" required>
+                            <option value="">Select Day</option>
+                            {% for d in range(1, 32) %}
+                                <option value="{{ d }}">{{ d }}</option>
+                            {% endfor %}
+                        </select>
+            
+                         <!-- <label for="year">Year:</label> -->
+                        <input type="number" id="year" name="year" min="1600"  required placeholder="Enter Year">
+            
+                        <button type="submit" id="compute-button" disabled>Compute</button>
+                    </form>
+            
+                    <div id="result" style="display: none;">
+                        <p id="result-text"></p>
+                        <p id="more-about"></p>
+                        <div id="sequential-relationship">
+                            <p>Century anchor: <span id="century-anchor"></span></p>
+                            <p>Century anchor day: <span id="century-anchor-day"></span></p>
+                            <p>Doomsday for <span id="result-month"></span> : <span id="doomsday-month"></span></p>
+                            <p>Calculated day: <span id="calculated-day"></span></p>
+                        </div>
+                    </div>
+                    <div class="buttons">
+                        <button>SEE MORE</button>
+                        <button>SHARE</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item">
+                <img src="{{ url_for('static', filename='images/loading1.jpg') }}" alt="Robotic Loading Image">
+                <div class="content">
+                    <div class="author">PILIP</div>
+                    <div class="title">ANNUAL COUNTDOWN</div>
+                    <div class="topic">(Coming Soon)</div>
+                    <div class="des">
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut sequi, rem magnam nesciunt minima placeat, itaque eum neque officiis unde, eaque optio ratione aliquid assumenda facere ab et quasi ducimus aut doloribus non numquam. Explicabo, laboriosam nisi reprehenderit tempora at laborum natus unde. Ut, exercitationem eum aperiam illo illum laudantium?
+                    </div>
+                    <div class="buttons">
+                        <button>SEE MORE</button>
+                        <button>SUBSCRIBE</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+
+    <!-- Thumbnail -->
+    <div class="thumbnail">
+        <div class="item">
+            <img src="{{ url_for('static', filename='images/img1.jpg') }}" alt="Thumbnail Image">   
+            <div class="content">
+                <div class="title">Doomsday Calculator</div>
+                <div class="des">Calculate the day of the week for any date</div>
+        </div>
+
+        <div class="item">
+            <img src="{{ url_for('static', filename='images/loading1.jpg') }}" alt="Thumbnail Image">   
+            <div class="content">
+                <div class="title">Year in Progress</div>
+                <div class="des">Coming Soon</div>
+            </div>
+        </div>
+    </div>
+
+<!-- Arrows -->
+    <div class="arrows">
+        <button id="prev"><</button>
+        <button id="next">></button>
+    </div>  
+
+
     <main>
         <h1>Day of the Week Calculator</h1>
         <form id="date-form" method="POST">
@@ -44,7 +146,7 @@
             </select>
 
             <label for="year">Year:</label>
-            <input type="number" id="year" name="year" min="1600"  required>
+            <input type="number" id="year" name="year" min="1600"  required placeholder="Select year">
 
             <button type="submit" id="compute-button" disabled>Compute</button>
         </form>
